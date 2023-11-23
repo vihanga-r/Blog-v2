@@ -59,6 +59,11 @@ app.get("/posts/:postName", function(req, res) {
     });
 });
 
+app.get("/compose", function(req, res) {
+
+    res.render("compose");
+});
+
 
 app.get("/posts");
 
