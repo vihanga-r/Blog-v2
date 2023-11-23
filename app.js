@@ -53,9 +53,10 @@ app.get("/posts/:postName", function(req, res) {
                 postTitle: post.title,
                 postContent: post.content
             });
+        } else {
+            res.render("404");
         }
     });
-    res.render("post");
 });
 
 
