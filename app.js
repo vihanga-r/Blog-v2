@@ -42,9 +42,20 @@ app.get("/", function(req, res) {
 });
 
 
-app.get("/post", function(req, res) {
+app.get("/posts/:postName", function(req, res) {
 
-    res.render(post);
+    let requestedTitle = _.kebabCase(req.params.postName);
+
+    postArray.forEach(function(post) {
+        let storedTitle = _.kebabCase(post.title);
+        if (storedTitle === requestedTitle) {
+            res.render("post", {
+                postTitle: post.title,
+                postContent: post.content
+            });
+        }
+    });
+    res.render("post");
 });
 
 
