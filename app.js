@@ -33,12 +33,13 @@ app.get("/", function(req, res) {
         data.forEach(function(post) {
             postArray.push(post);
         });
+        res.render("home", {
+            homeContent: homeStartingContent,
+            postArray: postArray,
+        });
     });
 
-    res.render("home", {
-        homeContent: homeStartingContent,
-        postArray: postArray,
-    });
+    
 });
 
 
@@ -64,8 +65,31 @@ app.get("/compose", function(req, res) {
     res.render("compose");
 });
 
+// POST routes
 
-app.get("/posts");
+app.post("/compose", function(req, res) {
+
+
+    let postTitle = req.body.title;
+    let postContent = req.body.post;
+
+    const entry = new Post({
+        title: postTitle,
+        content: postContent
+    });
+
+    Post.findOne({title: postTitle}).exec().then(data => {
+        //console.log("Searching DB for " + postTitle);
+        if (data === null) {
+            console.log("No blog post found by that title");
+            console.log("Therefore saving the new post...");
+            entry.save();
+        } else {
+            console.log("A blog post already exist by this title!");
+        }
+        res.redirect("/");
+    });
+});
 
 app.listen(3000, function() {
     console.log("Server started on port 3000")
