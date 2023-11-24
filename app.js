@@ -19,6 +19,7 @@ app.use(express.static("public"));
 const postSchema = new mongoose.Schema({
     title: String,
     content: String
+    // can use a kebabCaseTitle if needed
 });
 
 // new model for posts
@@ -45,20 +46,52 @@ app.get("/", function(req, res) {
 
 app.get("/posts/:postName", function(req, res) {
 
-    let requestedTitle = _.kebabCase(req.params.postName);
+    let requestedTitle = req.params.postName; 
 
-    postArray.forEach(function(post) {
-        let storedTitle = _.kebabCase(post.title);
-        if (storedTitle === requestedTitle) {
+    console.log(requestedTitle);
+
+    Post.findOne({title: requestedTitle}).exec().then(post => {
+        //console.log("Searching DB for " + postTitle);
+        if (post === null) {
+            console.log("No blog post found by that title");
+            console.log("Therefore rendering 404...");
+            res.render("404");
+        } else {
+            console.log("A blog post exists by this title! rendering...");
             res.render("post", {
                 postTitle: post.title,
                 postContent: post.content
             });
-        } else {
-            res.render("404");
         }
     });
 });
+
+
+// app.get("/posts/:postName", function(req, res) {
+
+//     let foundPost = false;
+//     let requestedTitle = _.kebabCase(req.params.postName);
+//     console.log(requestedTitle);
+    
+
+//     for (const post of postArray) {
+//         let storedTitle = _.kebabCase(post.title);
+        
+//         if (storedTitle === requestedTitle) {
+//             res.render("post", {
+//                 postTitle: post.title,
+//                 postContent: post.content
+//             });
+//             foundPost = true;
+//             break;
+//         }   
+//     };
+
+//     if (foundPost === false) {
+//         console.log(requestedTitle + " not equal to " + storedTitle);
+//         res.render("404");
+//     }
+// });
 
 app.get("/compose", function(req, res) {
 
