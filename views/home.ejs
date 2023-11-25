@@ -6,7 +6,7 @@
     <p> <%= homeContent %> </p><br>
     <% postArray.forEach(function(post) { %>
       <h3><%= post.title %></h3><br>
-      <p><%= post.content.slice(0, 100) + " ..."%><a href="/posts/<%= (post.title) %>">Read more</a></p>
+      <p><%= post.content.slice(0, 100) + " ..."%><a href="/posts/<%= (post._id) %>">Read more</a></p>
       <% //console.log(post.title) %>
     <% }); %>
   </div>
