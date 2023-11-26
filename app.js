@@ -4,7 +4,7 @@ const ejs = require("ejs");
 const _ = require("lodash");
 const mongoose = require("mongoose");
 
-mongoose.connect('mongodb+srv://admin-vihanga:kurulla2k23!@cluster0.lktvjmn.mongodb.net/postsDB');
+mongoose.connect('URI');
 
 const app = express();
 
